@@ -10,7 +10,7 @@ export class Taxi {
         this.table = 'taxi_2023';
     }
 
-    async loadTaxi(months = 6) {
+    async loadTaxi(months = 12) {
         if (!this.db || !this.conn)
             throw new Error('Database not initialized. Please call init() first.');
 
@@ -48,10 +48,15 @@ export class Taxi {
             throw new Error('Database not initialized. Please call init() first.');
 
         const sql = `
-                SELECT * 
-                FROM ${this.table}
-                LIMIT ${limit}
-            `;
+            SELECT
+                EXTRACT(HOUR FROM lpep_pickup_datetime) AS hora,
+                ROUND(AVG(tip_amount), 2) AS media_gorjeta,
+                COUNT(*) AS total_corridas
+            FROM ${this.table}
+            WHERE tip_amount > 0
+            GROUP BY hora
+            ORDER BY hora;
+        `;
 
         return await this.query(sql);
     }

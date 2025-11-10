@@ -2,7 +2,7 @@ import { Taxi } from "./taxi";
 import { loadChart, clearChart } from './plot';
 
 function callbacks(data) {
-    const loadBtn  = document.querySelector('#loadBtn');
+    const loadBtn = document.querySelector('#loadBtn');
     const clearBtn = document.querySelector('#clearBtn');
 
     if (!loadBtn || !clearBtn) {
@@ -27,12 +27,15 @@ window.onload = async () => {
 
     const sql = `
         SELECT
-            trip_distance,
-            tip_amount
-        FROM
-            taxi_2023
-        LIMIT ${150}
+            EXTRACT(HOUR FROM lpep_pickup_datetime) AS hora,
+            ROUND(AVG(tip_amount), 2) AS media_gorjeta,
+            COUNT(*) AS total_corridas
+        FROM taxi_2023
+        WHERE tip_amount > 0
+        GROUP BY hora
+        ORDER BY hora;
     `;
+
 
     const data = await taxi.query(sql);
     console.log(data);
