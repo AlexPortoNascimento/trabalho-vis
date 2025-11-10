@@ -1,5 +1,5 @@
 import { Taxi } from "./taxi";
-import { loadChart, clearChart } from './plot';
+import { tipsByTripAmountByHour, clearChart } from './plot';
 
 function callbacks(data) {
     const loadBtn = document.querySelector('#loadBtn');
@@ -11,7 +11,7 @@ function callbacks(data) {
 
     loadBtn.addEventListener('click', async () => {
         clearChart();
-        await loadChart(data);
+        await tipsByTripAmountByHour(data);
     });
 
     clearBtn.addEventListener('click', async () => {
