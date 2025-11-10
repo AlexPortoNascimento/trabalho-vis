@@ -1,0 +1,30 @@
+# === Node e dependências ===
+node_modules/
+package-lock.json
+
+# === Build e cache ===
+dist/
+.cache/
+.tmp/
+.DS_Store
+
+# === Dados locais (muito grandes!) ===
+data/*
+!data/.gitkeep
+
+
+# === DuckDB temporários ===
+*.duckdb
+*.db
+*.sqlite
+
+# === Logs e backups ===
+*.log
+*.bak
+*.tmp
+*.swp
+
+# === Sistema operacional ===
+Thumbs.db
+ehthumbs.db
+Icon?
