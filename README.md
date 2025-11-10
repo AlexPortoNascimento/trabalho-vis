@@ -23,11 +23,11 @@ Se quiser utilizar dados de outros anos, além de **2023**, devem ser baixados e
 ## Criando Novos Gráficos
 
 1. Crie um novo arquivo, por exemplo **`plot2.js`**, e copie tudo de `plot.js`.  
-2. Faça modificações a partir do comentário: "// ---- Escalas", tudo que vem antes são tratamentos de dados e definições das margens.
+2. Faça modificações a partir do comentário: "`// ---- Escalas`", tudo que vem antes são tratamentos de dados e definições das margens.
 
-3. Utilize as constantes innerWidth e innerHeight para definir o tamanho que o gráfico irá utilizar de todo o canvas SVG.
+3. Utilize as constantes innerWidth e innerHeight para definir o tamanho que o gráfico irá utilizar de todo o canvas `SVG`.
 
 ## Importante
 
-Lembre-se de deixar as consultas que estão sendo utilizadas pelos outros gráficos com os mesmos nomes de variáveis e com as consultas intocadas! Não quebre o código que já está funcionando!
+**Lembre-se de deixar as consultas que estão sendo utilizadas pelos outros gráficos com os mesmos nomes de variáveis e com as consultas intocadas! Não quebre o código que já está funcionando!**
 
