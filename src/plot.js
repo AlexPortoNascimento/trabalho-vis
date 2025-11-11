@@ -13,7 +13,7 @@ export async function tipsByTripAmountByHour(data, margens = { left: 60, right: 
     const innerWidth = width - margens.left - margens.right;
     const innerHeight = height - margens.top - margens.bottom;
 
-    // Conversão: transforma BigInt em Number logo no começo
+    // Conversão: transforma BigInt em Number
     data = data.map(obj =>
         Object.fromEntries(
             Object.entries(obj).map(([k, v]) => [k, typeof v === 'bigint' ? Number(v) : v])

@@ -13,7 +13,7 @@ export async function tipsByTripAmountByScatterPlot(data, margens = { left: 60, 
   const innerWidth = width - margens.left - margens.right;
   const innerHeight = height - margens.top - margens.bottom;
 
-  // Conversão: transforma BigInt em Number logo no começo
+  // Conversão: transforma BigInt em Number
   data = data.map(obj =>
     Object.fromEntries(
       Object.entries(obj).map(([k, v]) => [k, typeof v === 'bigint' ? Number(v) : v])
@@ -88,15 +88,11 @@ export async function tipsByTripAmountByScatterPlot(data, margens = { left: 60, 
   const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - Math.pow(sumX, 2));
   const intercept = (sumY - slope * sumX) / n;
 
-  console.log("Linha de tendência:", { slope, intercept });
-
-  // Criar pontos para a linha de tendência
   const linhaTendencia = [
     { total_corridas: 0, media_gorjeta: intercept },
     { total_corridas: d3.max(data, d => d.total_corridas), media_gorjeta: slope * d3.max(data, d => d.total_corridas) + intercept }
   ];
 
-  // Desenhar linha de tendência
   const geradorLinhaTendencia = d3.line()
     .x(d => dispersaoX(d.total_corridas))
     .y(d => dispersaoY(d.media_gorjeta));
@@ -112,7 +108,6 @@ export async function tipsByTripAmountByScatterPlot(data, margens = { left: 60, 
     .attr('opacity', 0.8);
 
   // ---- Legenda
-
   legenda.append('circle')
     .attr('cx', 0)
     .attr('cy', 0)
