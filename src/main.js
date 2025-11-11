@@ -1,8 +1,10 @@
 import { Taxi } from "./taxi";
 import { tipsByTripAmountByHour, clearChart } from './plot';
+import { tipsByTripAmountByScatterPlot } from "./tipsByTripAmountScatterPlot";
 
 function callbacks(data) {
     const loadBtn = document.querySelector('#loadBtn');
+    const loadScatterPlot = document.querySelector("#tipsByTripAmountScatterPlot");
     const clearBtn = document.querySelector('#clearBtn');
 
     if (!loadBtn || !clearBtn) {
@@ -12,6 +14,11 @@ function callbacks(data) {
     loadBtn.addEventListener('click', async () => {
         clearChart();
         await tipsByTripAmountByHour(data);
+    });
+
+    loadScatterPlot.addEventListener('click', async () => {
+        clearChart();
+        await tipsByTripAmountByScatterPlot(data);
     });
 
     clearBtn.addEventListener('click', async () => {
