@@ -107,22 +107,4 @@ export async function tipsByTripAmountByScatterPlot(data, margens = { left: 60, 
     .attr('stroke-dasharray', '5,5')
     .attr('opacity', 0.8);
 
-  // ---- Legenda
-  legenda.append('circle')
-    .attr('cx', 0)
-    .attr('cy', 0)
-    .attr('r', 6)
-    .attr('fill', '#E74C3C')
-    .attr('opacity', 0.7)
-    .attr('stroke', '#C0392B')
-    .attr('stroke-width', 1.5);
-
-  legenda.append('text')
-    .attr('x', 15)
-    .attr('y', 4)
-    .attr('text-anchor', 'start')
-    .style('font-size', '12px')
-    .style('font-weight', 'bold')
-    .text('Hora do Dia');
-
 }

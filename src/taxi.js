@@ -2,12 +2,15 @@
 import { loadDb } from './config';
 
 export class Taxi {
+    constructor(year, color) {
+        this.color = color;
+        this.year = year
+        this.table = `taxi_${year}`;
+    }
+    
     async init() {
         this.db = await loadDb();
         this.conn = await this.db.connect();
-
-        this.color = "green";
-        this.table = 'taxi_2023';
     }
 
     async loadTaxi(months = 12) {
@@ -19,8 +22,8 @@ export class Taxi {
         for (let id = 1; id <= months; id++) {
             const sId = String(id).padStart(2, '0')
             files.push({
-                key: `Y2023M${sId}`,
-                url: `data/${this.color}/${this.color}_tripdata_2023-${sId}.parquet`
+                key: `Y${this.year}M${sId}`,
+                url: `data/${this.color}/${this.color}_tripdata_${this.year}-${sId}.parquet`
             });
 
 
@@ -31,7 +34,7 @@ export class Taxi {
         await this.conn.query(`
             CREATE TABLE ${this.table} AS
                 SELECT * 
-                FROM read_parquet([${files.map(d => d.key).join(",")}]);
+                FROM read_parquet([${files.map(d => d.key).join(",")}], union_by_name=true);
         `);
     }
 
@@ -41,23 +44,5 @@ export class Taxi {
 
         let result = await this.conn.query(sql);
         return result.toArray().map(row => row.toJSON());
-    }
-
-    async test(limit = 10) {
-        if (!this.db || !this.conn)
-            throw new Error('Database not initialized. Please call init() first.');
-
-        const sql = `
-            SELECT
-                EXTRACT(HOUR FROM lpep_pickup_datetime) AS hora,
-                ROUND(AVG(tip_amount), 2) AS media_gorjeta,
-                COUNT(*) AS total_corridas
-            FROM ${this.table}
-            WHERE tip_amount > 0
-            GROUP BY hora
-            ORDER BY hora;
-        `;
-
-        return await this.query(sql);
     }
 }

@@ -27,7 +27,7 @@ function callbacks(data) {
 }
 
 window.onload = async () => {
-    const taxi = new Taxi();
+    const taxi = new Taxi('2023', 'green');
 
     await taxi.init();
     await taxi.loadTaxi();
@@ -37,7 +37,7 @@ window.onload = async () => {
             EXTRACT(HOUR FROM lpep_pickup_datetime) AS hora,
             ROUND(AVG(tip_amount), 2) AS media_gorjeta,
             COUNT(*) AS total_corridas
-        FROM taxi_2023
+        FROM ${taxi.table}
         WHERE tip_amount > 0
         GROUP BY hora
         ORDER BY hora;
