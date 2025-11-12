@@ -1,6 +1,7 @@
 import { Taxi } from "./taxi";
 import { tipsByTripAmountByHour, clearChart } from './plot';
 import { tipsByTripAmountByScatterPlot } from "./tipsByTripAmountScatterPlot";
+//import { tipsByTripAmountScatterPlot } from './tipsByTripAmountScatterPlot.js';
 
 function callbacks(data) {
     const loadBtn = document.querySelector('#loadBtn');
@@ -18,6 +19,7 @@ function callbacks(data) {
 
     loadScatterPlot.addEventListener('click', async () => {
         clearChart();
+        //o ano inteiro de 2023
         await tipsByTripAmountByScatterPlot(data);
     });
 
