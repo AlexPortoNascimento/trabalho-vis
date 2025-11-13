@@ -1,14 +1,14 @@
 import { Taxi } from "./taxi";
 import { tipsByTripAmountByHour, clearChart } from './plot';
 import { tipsByTripAmountByScatterPlot } from "./tipsByTripAmountScatterPlot";
-// Mainoth
+import { topPickupLocationsChart } from "./topPickupLocationsChart";
 import { plotGraficoEstacoes } from "./estacoes";
-// Mainoth
-// Mainoth
-function callbacks(data, taxi) {
-// Mainoth    
+
+function callbacks(data, pickupLocationsData, taxi) {
+
     const loadBtn = document.querySelector('#loadBtn');
     const loadScatterPlot = document.querySelector("#tipsByTripAmountScatterPlot");
+    const loadPickupLocations = document.querySelector("#topPickupLocations");
     const clearBtn = document.querySelector('#clearBtn');
 
     // Mainoth
@@ -25,7 +25,14 @@ function callbacks(data, taxi) {
 
     loadScatterPlot.addEventListener('click', async () => {
         clearChart();
+        
         await tipsByTripAmountByScatterPlot(data);
+    });
+
+     // callback para a visualização de regiões
+    loadPickupLocations.addEventListener('click', async () => {
+        clearChart();
+        await topPickupLocationsChart(pickupLocationsData);
     });
 
     clearBtn.addEventListener('click', async () => {
@@ -68,11 +75,26 @@ window.onload = async () => {
         ORDER BY hora;
     `;
 
+    //Consulta para regiões de embarque
+    const pickupLocationsSql = `
+        SELECT
+            PULocationID AS location_id,
+            COUNT(*) AS total_embarques
+        FROM ${taxi.table}
+        WHERE PULocationID IS NOT NULL
+        GROUP BY PULocationID
+        ORDER BY total_embarques DESC
+        LIMIT 15;  -- Top 15 regiões
+    `;
 
     const data = await taxi.query(sql);
-    console.log(data);
-    //Mainoth
-    callbacks(data,taxi);
-    //Mainoth
+    const pickupLocationsData = await taxi.query(pickupLocationsSql); // Nova consulta
+
+    console.log("Dados de gorjetas por hora:", data);
+    console.log("Top regiões de embarque:", pickupLocationsData);
+    console.log("Taxis", taxi);
+
+    callbacks(data, pickupLocationsData, taxi);
+
 };
 
