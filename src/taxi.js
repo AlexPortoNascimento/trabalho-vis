@@ -1,4 +1,3 @@
-
 import { loadDb } from './config';
 
 export class Taxi {
