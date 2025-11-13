@@ -4,7 +4,7 @@ import { tipsByTripAmountByScatterPlot } from "./tipsByTripAmountScatterPlot";
 import { topPickupLocationsChart } from "./topPickupLocationsChart";
 import { plotGraficoEstacoes } from "./estacoes";
 
-function callbacks(data, pickupLocationsData, taxi) {
+function callbacks(data, pickupLocationsData, taxi, zonesData) {
 
     const loadBtn = document.querySelector('#loadBtn');
     const loadScatterPlot = document.querySelector("#tipsByTripAmountScatterPlot");
@@ -32,7 +32,7 @@ function callbacks(data, pickupLocationsData, taxi) {
      // callback para a visualização de regiões
     loadPickupLocations.addEventListener('click', async () => {
         clearChart();
-        await topPickupLocationsChart(pickupLocationsData);
+        await topPickupLocationsChart(pickupLocationsData, zonesData);
     });
 
     clearBtn.addEventListener('click', async () => {
@@ -54,6 +54,14 @@ function callbacks(data, pickupLocationsData, taxi) {
 
 window.onload = async () => {
     const taxi = new Taxi('2023', 'green');
+
+
+    //Adição para os nomes das zonas
+    const zonesResponse = await fetch('data/taxi-zones.json');
+    const zonesData = await zonesResponse.json();
+
+    console.log('ZONES DATA:', zonesData); // 👈 Adicione isso
+    console.log('Tipo de zonesData:', Array.isArray(zonesData) ? 'Array' : typeof zonesData);
 
     await taxi.init();
     await taxi.loadTaxi();
@@ -94,7 +102,7 @@ window.onload = async () => {
     console.log("Top regiões de embarque:", pickupLocationsData);
     console.log("Taxis", taxi);
 
-    callbacks(data, pickupLocationsData, taxi);
+    callbacks(data, pickupLocationsData, taxi, zonesData);
 
 };
 
