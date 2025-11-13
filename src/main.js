@@ -3,7 +3,7 @@ import { tipsByTripAmountByHour, clearChart } from './plot';
 import { tipsByTripAmountByScatterPlot } from "./tipsByTripAmountScatterPlot";
 import { topPickupLocationsChart } from "./topPickupLocationsChart";
 import { plotGraficoEstacoes } from "./estacoes";
-import { exportSVG } from "./export";
+import { exportPNG } from "./export";
 
 function callbacks(data, pickupLocationsData, taxi, zonesData) {
 
@@ -11,7 +11,7 @@ function callbacks(data, pickupLocationsData, taxi, zonesData) {
     const loadScatterPlot = document.querySelector("#tipsByTripAmountScatterPlot");
     const loadPickupLocations = document.querySelector("#topPickupLocations");
     const clearBtn = document.querySelector('#clearBtn');
-    const exportSvg = document.querySelector("#exportSVG");
+    const exportPng = document.querySelector("#exportPNG");
 
 
     // Mainoth
@@ -54,7 +54,7 @@ function callbacks(data, pickupLocationsData, taxi, zonesData) {
     });
     //Mainoth
 
-    exportSvg.addEventListener('click', exportSVG);
+    exportPng.addEventListener('click', exportPNG);
 }
 
 window.onload = async () => {
