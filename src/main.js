@@ -1,12 +1,19 @@
 import { Taxi } from "./taxi";
 import { tipsByTripAmountByHour, clearChart } from './plot';
 import { tipsByTripAmountByScatterPlot } from "./tipsByTripAmountScatterPlot";
-
-function callbacks(data) {
+// Mainoth
+import { plotGraficoEstacoes } from "./estacoes";
+// Mainoth
+// Mainoth
+function callbacks(data, taxi) {
+// Mainoth    
     const loadBtn = document.querySelector('#loadBtn');
     const loadScatterPlot = document.querySelector("#tipsByTripAmountScatterPlot");
     const clearBtn = document.querySelector('#clearBtn');
 
+    // Mainoth
+    const botaoEstacoes = document.querySelector('#estacoesAnos');
+    // Mainoth
     if (!loadBtn || !clearBtn) {
         return;
     }
@@ -24,6 +31,18 @@ function callbacks(data) {
     clearBtn.addEventListener('click', async () => {
         clearChart();
     });
+
+    // Mainoth
+
+    botaoEstacoes?.addEventListener('click', async () => {
+    try {
+      clearChart();
+      await plotGraficoEstacoes(taxi);
+    } catch (e) {
+      console.error(e);
+    }
+    });
+    //Mainoth
 }
 
 window.onload = async () => {
@@ -31,6 +50,12 @@ window.onload = async () => {
 
     await taxi.init();
     await taxi.loadTaxi();
+
+    //Mainoth
+    await taxi.loadExtraYear('2022', 'green');
+    window.taxi = taxi;
+    window.q = (sql) => taxi.query(sql);   // atalho útil p/ consultas rápidas
+    //Mainoth
 
     const sql = `
         SELECT
@@ -46,7 +71,8 @@ window.onload = async () => {
 
     const data = await taxi.query(sql);
     console.log(data);
-
-    callbacks(data);
+    //Mainoth
+    callbacks(data,taxi);
+    //Mainoth
 };
 
